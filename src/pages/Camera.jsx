@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { HiCamera, HiOutlineArrowLeft, HiVideoCamera } from 'react-icons/hi';
+import { HiCamera, HiOutlineArrowLeft, HiVideoCamera, HiSwitchHorizontal } from 'react-icons/hi';
 
 const Camera = () => {
   const navigate = useNavigate();
@@ -14,16 +14,22 @@ const Camera = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [recordingTimer, setRecordingTimer] = useState(null);
+  const [facingMode, setFacingMode] = useState('user'); // 'user' or 'environment'
 
   useEffect(() => {
     startCamera();
-  }, []);
+  }, [facingMode]);
 
   const startCamera = async () => {
     try {
+      // Stop existing stream if any
+      if (videoRef.current && videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: 'user',
+          facingMode: facingMode,
           width: { ideal: 1920 },
           height: { ideal: 1080 }
         },
@@ -154,11 +160,15 @@ const Camera = () => {
     }
   };
 
+  const toggleCamera = () => {
+    setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-lg p-4">
         <div className="flex items-center mb-4">
-          <button 
+          <button
             onClick={() => navigate('/')}
             className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400"
           >
@@ -227,8 +237,16 @@ const Camera = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="absolute bottom-4 left-0 right-0 flex justify-center"
+                className="absolute bottom-4 left-0 right-0 flex justify-center items-center px-4"
               >
+                <button
+                  onClick={toggleCamera}
+                  className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg hover:bg-white transition-colors mr-auto"
+                  aria-label="Wissel camera"
+                >
+                  <HiSwitchHorizontal className="text-2xl text-gray-700" />
+                </button>
+
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={handleCapture}
@@ -252,6 +270,8 @@ const Camera = () => {
                     )}
                   </div>
                 </motion.button>
+
+                <div className="w-12 ml-auto" />
               </motion.div>
             </>
           )}
