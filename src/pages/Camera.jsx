@@ -24,13 +24,22 @@ const Camera = () => {
       if (videoRef.current && videoRef.current.srcObject) {
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       }
+      if (recordingTimer) {
+        clearInterval(recordingTimer);
+      }
     };
-  }, [facingMode]);
+  }, [facingMode, mode]);
 
   const startCamera = async () => {
     try {
-      if (isRecording) {
-        stopRecording();
+      if (mediaRecorderRef.current && isRecording) {
+        mediaRecorderRef.current.stop();
+        setIsRecording(false);
+      }
+
+      if (recordingTimer) {
+        clearInterval(recordingTimer);
+        setRecordingTimer(null);
       }
 
       if (videoRef.current && videoRef.current.srcObject) {
@@ -59,17 +68,24 @@ const Camera = () => {
   };
 
   const capturePhoto = () => {
-    if (!videoRef.current || !canvasRef.current) return;
+    if (!videoRef.current || !canvasRef.current) {
+      console.error('Video of canvas ref niet beschikbaar');
+      return;
+    }
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
+
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+      console.error('Video niet klaar');
+      return;
+    }
 
     canvas.width = 1920;
     canvas.height = 1920;
 
     const ctx = canvas.getContext('2d');
 
-    // Calculate dimensions to maintain aspect ratio
     const videoAspect = video.videoWidth / video.videoHeight;
     let sx = 0;
     let sy = 0;
@@ -88,7 +104,6 @@ const Camera = () => {
 
     const photoData = canvas.toDataURL('image/jpeg', 1.0);
 
-    // Stop camera stream
     if (video.srcObject) {
       video.srcObject.getTracks().forEach(track => track.stop());
     }
