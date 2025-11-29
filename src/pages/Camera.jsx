@@ -167,38 +167,37 @@ const Camera = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-lg p-4">
-        <div className="flex items-center mb-4">
+    <div className="flex flex-col min-h-screen bg-black">
+      <div className="absolute top-0 left-0 right-0 z-10 p-3 bg-gradient-to-b from-black/60 to-transparent">
+        <div className="flex items-center">
           <button
             onClick={() => navigate('/')}
-            className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400"
+            className="flex items-center text-white hover:text-yellow-300"
           >
-            <HiOutlineArrowLeft className="mr-1" /> Terug
+            <HiOutlineArrowLeft className="text-xl" />
           </button>
-          <h1 className="text-2xl font-semibold ml-4 text-center flex-grow text-gray-800 dark:text-white">
-            Start je {mode === 'photo' ? 'foto' : 'video'}
-          </h1>
         </div>
+      </div>
 
+      <div className="flex-1 w-full relative">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="relative"
+          className="w-full h-full relative"
         >
-          <div className="aspect-video w-full bg-black rounded-xl overflow-hidden relative">
+          <div className="absolute inset-0 bg-black overflow-hidden">
             <video
               ref={videoRef}
               autoPlay
               playsInline
               muted
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
             />
             {isRecording && (
-              <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full flex items-center gap-2">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
-                <span className="font-bold">{recordingTime}s / 30s</span>
+              <div className="absolute top-16 left-3 bg-red-500 text-white px-2 py-1 rounded-full flex items-center gap-1 text-sm">
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                <span className="font-bold">{recordingTime}s</span>
               </div>
             )}
           </div>
@@ -211,59 +210,7 @@ const Camera = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="absolute bottom-4 left-0 right-0 flex justify-center items-center gap-4 px-4"
-              >
-                <button
-                  onClick={() => {
-                    setMode('photo');
-                    setFacingMode('environment');
-                  }}
-                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
-                    mode === 'photo' && facingMode === 'environment'
-                      ? 'bg-yellow-300 text-gray-900 scale-110'
-                      : 'bg-white/90 text-gray-700 hover:bg-white'
-                  }`}
-                >
-                  <HiCamera className="text-2xl mb-1" />
-                  <span className="text-xs font-bold">Foto</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setMode('video');
-                    setFacingMode('environment');
-                  }}
-                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
-                    mode === 'video' && facingMode === 'environment'
-                      ? 'bg-yellow-300 text-gray-900 scale-110'
-                      : 'bg-white/90 text-gray-700 hover:bg-white'
-                  }`}
-                >
-                  <HiVideoCamera className="text-2xl mb-1" />
-                  <span className="text-xs font-bold">Video</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setMode('photo');
-                    setFacingMode('user');
-                  }}
-                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
-                    mode === 'photo' && facingMode === 'user'
-                      ? 'bg-yellow-300 text-gray-900 scale-110'
-                      : 'bg-white/90 text-gray-700 hover:bg-white'
-                  }`}
-                >
-                  <MdCameraFront className="text-2xl mb-1" />
-                  <span className="text-xs font-bold">Selfie</span>
-                </button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-28 left-0 right-0 flex justify-center"
+                className="absolute bottom-20 left-0 right-0 flex justify-center"
               >
                 <motion.button
                   whileTap={{ scale: 0.9 }}
@@ -288,6 +235,60 @@ const Camera = () => {
                     )}
                   </div>
                 </motion.button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-3 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-8 pb-3"
+              >
+                <div className="flex justify-center items-center gap-3 px-4">
+                  <button
+                    onClick={() => {
+                      setMode('photo');
+                      setFacingMode('environment');
+                    }}
+                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                      mode === 'photo' && facingMode === 'environment'
+                        ? 'bg-yellow-300 text-gray-900'
+                        : 'bg-white/20 text-white backdrop-blur-sm'
+                    }`}
+                  >
+                    <HiCamera className="text-xl mb-0.5" />
+                    <span className="text-[10px] font-bold">Foto</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setMode('video');
+                      setFacingMode('environment');
+                    }}
+                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                      mode === 'video' && facingMode === 'environment'
+                        ? 'bg-yellow-300 text-gray-900'
+                        : 'bg-white/20 text-white backdrop-blur-sm'
+                    }`}
+                  >
+                    <HiVideoCamera className="text-xl mb-0.5" />
+                    <span className="text-[10px] font-bold">Video</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setMode('photo');
+                      setFacingMode('user');
+                    }}
+                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                      mode === 'photo' && facingMode === 'user'
+                        ? 'bg-yellow-300 text-gray-900'
+                        : 'bg-white/20 text-white backdrop-blur-sm'
+                    }`}
+                  >
+                    <MdCameraFront className="text-xl mb-0.5" />
+                    <span className="text-[10px] font-bold">Selfie</span>
+                  </button>
+                </div>
               </motion.div>
             </>
           )}
