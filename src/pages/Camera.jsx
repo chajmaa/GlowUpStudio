@@ -25,11 +25,11 @@ const Camera = () => {
         video: {
           facingMode: 'user',
           width: { ideal: 1920 },
-          height: { ideal: 1920 }
+          height: { ideal: 1080 }
         },
         audio: true
       });
-      
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setIsCameraReady(true);
@@ -175,13 +175,13 @@ const Camera = () => {
           transition={{ duration: 0.3 }}
           className="relative"
         >
-          <div className="aspect-square w-full bg-black rounded-xl overflow-hidden relative">
+          <div className="aspect-video w-full bg-black rounded-xl overflow-hidden relative">
             <video
               ref={videoRef}
               autoPlay
               playsInline
               muted
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             {isRecording && (
               <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full flex items-center gap-2">
