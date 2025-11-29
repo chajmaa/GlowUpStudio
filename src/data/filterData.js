@@ -1,5 +1,12 @@
 const filterData = [
   {
+    id: 'pensioen-bart',
+    name: 'Pensioen Bart',
+    description: 'Speciale pensioen viering voor Bart',
+    imageUrl: '/Pensioen-Bart.png',
+    thumbnailUrl: '/Pensioen-Bart.png'
+  },
+  {
     id: 'retirement',
     name: 'Happy Retirement',
     description: 'Vier je pensioen met gouden vuurwerk',
