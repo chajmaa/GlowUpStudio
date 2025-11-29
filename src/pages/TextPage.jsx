@@ -158,7 +158,7 @@ const TextPage = () => {
           </div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="mt-8 flex justify-end"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -179,7 +179,7 @@ const TextPage = () => {
               </span>
             ) : (
               <span className="flex items-center">
-                Volgende <HiCheck className="ml-1" />
+                Tekst {isVideo ? 'video' : 'foto'} <HiCheck className="ml-1" />
               </span>
             )}
           </button>
