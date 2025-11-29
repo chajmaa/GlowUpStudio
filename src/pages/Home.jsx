@@ -35,10 +35,12 @@ const Home = () => {
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants}>
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text text-transparent mb-4">
-            GlowUpStudio <span className="text-accent-500">❤️</span>
-          </h1>
+        <motion.div variants={itemVariants} className="mb-4">
+          <img
+            src="/1.png"
+            alt="Studio Glow Up"
+            className="w-64 mx-auto"
+          />
         </motion.div>
         
         <motion.p 
