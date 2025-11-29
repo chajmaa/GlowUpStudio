@@ -20,14 +20,24 @@ const Camera = () => {
 
   useEffect(() => {
     startCamera();
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      }
+    };
   }, [facingMode]);
 
   const startCamera = async () => {
     try {
-      // Stop existing stream if any
+      if (isRecording) {
+        stopRecording();
+      }
+
       if (videoRef.current && videoRef.current.srcObject) {
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       }
+
+      setIsCameraReady(false);
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -35,7 +45,7 @@ const Camera = () => {
           width: { ideal: 1920 },
           height: { ideal: 1080 }
         },
-        audio: true
+        audio: mode === 'video'
       });
 
       if (videoRef.current) {
