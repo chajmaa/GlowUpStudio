@@ -38,9 +38,16 @@ const Header = () => {
     >
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl font-semibold text-gray-900 dark:text-white transition-colors">
-              <span className="text-primary-500">P</span>ortfolio
+          <Link to="/" className="flex items-center space-x-2">
+            <img
+              src="/logo glowupstudio.png"
+              alt="GlowUp Studio"
+              className="h-8 w-auto"
+            />
+            <span className="text-xl font-semibold">
+              <span className="text-blue-600 dark:text-blue-500">Glow</span>
+              <span className="text-purple-600 dark:text-purple-500">Up</span>
+              <span className="text-pink-600 dark:text-pink-500">Studio</span>
             </span>
           </Link>
 
