@@ -1,6 +1,5 @@
 [build]
-  base = "project- app - glowupstudio"
-  publish = "project- app - glowupstudio/dist"
+  publish = "dist"
   command = "npm install && npm run build"
 
 [[redirects]]
