@@ -37,7 +37,7 @@ const Home = () => {
       >
         <motion.div variants={itemVariants} className="mb-4">
           <img
-            src="/1.png"
+            src="/logo glowupstudio.png"
             alt="Studio Glow Up"
             className="w-64 mx-auto"
           />
