@@ -24,8 +24,8 @@ const Camera = () => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'user',
-          width: { ideal: 1080 },
-          height: { ideal: 1080 }
+          width: { ideal: 1920 },
+          height: { ideal: 1920 }
         },
         audio: true
       });
@@ -46,8 +46,8 @@ const Camera = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
-    canvas.width = 1080;
-    canvas.height = 1080;
+    canvas.width = 1920;
+    canvas.height = 1920;
 
     const ctx = canvas.getContext('2d');
 
@@ -68,7 +68,7 @@ const Camera = () => {
 
     ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
 
-    const photoData = canvas.toDataURL('image/jpeg', 0.9);
+    const photoData = canvas.toDataURL('image/jpeg', 1.0);
 
     // Stop camera stream
     if (video.srcObject) {
@@ -84,10 +84,14 @@ const Camera = () => {
     recordedChunksRef.current = [];
 
     const stream = videoRef.current.srcObject;
-    const options = { mimeType: 'video/webm;codecs=vp9' };
+    const options = {
+      mimeType: 'video/webm;codecs=vp9',
+      videoBitsPerSecond: 8000000
+    };
 
     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
       options.mimeType = 'video/webm';
+      options.videoBitsPerSecond = 8000000;
     }
 
     mediaRecorderRef.current = new MediaRecorder(stream, options);
@@ -161,7 +165,7 @@ const Camera = () => {
             <HiOutlineArrowLeft className="mr-1" /> Terug
           </button>
           <h1 className="text-2xl font-semibold ml-4 text-center flex-grow text-gray-800 dark:text-white">
-            Neem je selfie
+            Start je {mode === 'photo' ? 'foto' : 'video'}
           </h1>
         </div>
 

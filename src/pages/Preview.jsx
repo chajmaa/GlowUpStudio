@@ -37,8 +37,8 @@ const Preview = () => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    canvas.width = 1080;
-    canvas.height = 1080;
+    canvas.width = 1920;
+    canvas.height = 1920;
     const ctx = canvas.getContext('2d');
 
     const photo = new Image();
@@ -52,7 +52,7 @@ const Preview = () => {
         ctx.drawImage(filter, 0, 0, canvas.width, canvas.height);
 
         if (textOptions.quote) {
-          ctx.font = 'bold 48px Inter, sans-serif';
+          ctx.font = 'bold 86px Inter, sans-serif';
           ctx.textAlign = 'center';
           ctx.fillStyle = '#FFD700';
 
@@ -93,7 +93,7 @@ const Preview = () => {
           ctx.fillText(line, canvas.width / 2, lineY);
         }
 
-        const finalImageUrl = canvas.toDataURL('image/jpeg', 0.9);
+        const finalImageUrl = canvas.toDataURL('image/jpeg', 1.0);
         setFinalImageUrl(finalImageUrl);
       };
       filter.src = selectedFilter.imageUrl;
@@ -117,8 +117,8 @@ const Preview = () => {
       video.currentTime = 0;
 
       const canvas = document.createElement('canvas');
-      canvas.width = 1080;
-      canvas.height = 1080;
+      canvas.width = 1920;
+      canvas.height = 1920;
       const ctx = canvas.getContext('2d');
 
       const filterImg = new Image();
@@ -133,7 +133,7 @@ const Preview = () => {
       const stream = canvas.captureStream(30);
       const mediaRecorder = new MediaRecorder(stream, {
         mimeType: 'video/webm;codecs=vp9',
-        videoBitsPerSecond: 5000000
+        videoBitsPerSecond: 10000000
       });
 
       const chunks = [];
@@ -163,7 +163,7 @@ const Preview = () => {
         ctx.drawImage(filterImg, 0, 0, canvas.width, canvas.height);
 
         if (textOptions.quote) {
-          ctx.font = 'bold 48px Inter, sans-serif';
+          ctx.font = 'bold 86px Inter, sans-serif';
           ctx.textAlign = 'center';
           ctx.fillStyle = '#FFD700';
           ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
