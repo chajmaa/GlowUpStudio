@@ -1,5 +1,12 @@
 const filterData = [
   {
+    id: 'retirement',
+    name: 'Happy Retirement',
+    description: 'Vier je pensioen met gouden vuurwerk',
+    imageUrl: '/happy-retirement.png',
+    thumbnailUrl: '/happy-retirement.png'
+  },
+  {
     id: 'classic',
     name: 'Classic Filter',
     description: 'Klassieke stijl voor je foto',
