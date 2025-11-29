@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { HiCamera, HiOutlineArrowLeft, HiVideoCamera, HiSwitchHorizontal } from 'react-icons/hi';
+import { HiCamera, HiOutlineArrowLeft, HiVideoCamera } from 'react-icons/hi';
+import { FaUser, FaVideo } from 'react-icons/fa';
+import { MdCameraFront } from 'react-icons/md';
 
 const Camera = () => {
   const navigate = useNavigate();
@@ -209,44 +211,60 @@ const Camera = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="absolute top-4 right-4 flex gap-2"
+                className="absolute bottom-4 left-0 right-0 flex justify-center items-center gap-4 px-4"
               >
                 <button
-                  onClick={() => setMode('photo')}
-                  className={`px-4 py-2 rounded-full font-bold flex items-center gap-2 ${
-                    mode === 'photo'
-                      ? 'bg-yellow-300 text-gray-900'
-                      : 'bg-white/80 text-gray-900'
+                  onClick={() => {
+                    setMode('photo');
+                    setFacingMode('environment');
+                  }}
+                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
+                    mode === 'photo' && facingMode === 'environment'
+                      ? 'bg-yellow-300 text-gray-900 scale-110'
+                      : 'bg-white/90 text-gray-700 hover:bg-white'
                   }`}
                 >
-                  <HiCamera /> Foto
+                  <HiCamera className="text-2xl mb-1" />
+                  <span className="text-xs font-bold">Foto</span>
                 </button>
+
                 <button
-                  onClick={() => setMode('video')}
-                  className={`px-4 py-2 rounded-full font-bold flex items-center gap-2 ${
-                    mode === 'video'
-                      ? 'bg-yellow-300 text-gray-900'
-                      : 'bg-white/80 text-gray-900'
+                  onClick={() => {
+                    setMode('video');
+                    setFacingMode('environment');
+                  }}
+                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
+                    mode === 'video' && facingMode === 'environment'
+                      ? 'bg-yellow-300 text-gray-900 scale-110'
+                      : 'bg-white/90 text-gray-700 hover:bg-white'
                   }`}
                 >
-                  <HiVideoCamera /> Video
+                  <HiVideoCamera className="text-2xl mb-1" />
+                  <span className="text-xs font-bold">Video</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMode('photo');
+                    setFacingMode('user');
+                  }}
+                  className={`flex flex-col items-center justify-center w-20 h-20 rounded-2xl shadow-lg transition-all ${
+                    mode === 'photo' && facingMode === 'user'
+                      ? 'bg-yellow-300 text-gray-900 scale-110'
+                      : 'bg-white/90 text-gray-700 hover:bg-white'
+                  }`}
+                >
+                  <MdCameraFront className="text-2xl mb-1" />
+                  <span className="text-xs font-bold">Selfie</span>
                 </button>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-4 left-0 right-0 flex justify-center items-center px-4"
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-28 left-0 right-0 flex justify-center"
               >
-                <button
-                  onClick={toggleCamera}
-                  className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg hover:bg-white transition-colors mr-auto"
-                  aria-label="Wissel camera"
-                >
-                  <HiSwitchHorizontal className="text-2xl text-gray-700" />
-                </button>
-
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={handleCapture}
@@ -270,8 +288,6 @@ const Camera = () => {
                     )}
                   </div>
                 </motion.button>
-
-                <div className="w-12 ml-auto" />
               </motion.div>
             </>
           )}
