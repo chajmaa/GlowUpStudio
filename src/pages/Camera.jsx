@@ -16,7 +16,7 @@ const Camera = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [recordingTimer, setRecordingTimer] = useState(null);
-  const [facingMode, setFacingMode] = useState('user'); // 'user' or 'environment'
+  const [facingMode, setFacingMode] = useState('environment'); // 'user' or 'environment'
 
   useEffect(() => {
     startCamera();
@@ -266,7 +266,7 @@ const Camera = () => {
               transition={{ delay: 0.4 }}
               className="absolute bottom-3 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-8 pb-3 z-30"
             >
-              <div className="flex justify-center items-center gap-3 px-4">
+              <div className="flex justify-center items-center gap-2 px-4">
                 <button
                   onClick={() => {
                     if (!isRecording) {
@@ -275,14 +275,14 @@ const Camera = () => {
                     }
                   }}
                   disabled={isRecording}
-                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                  className={`flex flex-col items-center justify-center w-14 h-14 rounded-xl shadow-lg transition-all ${
                     mode === 'photo' && facingMode === 'environment'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
                   } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  <HiCamera className="text-xl mb-0.5" />
-                  <span className="text-[10px] font-bold">Foto</span>
+                  <HiCamera className="text-lg mb-0.5" />
+                  <span className="text-[9px] font-bold">Foto</span>
                 </button>
 
                 <button
@@ -293,14 +293,14 @@ const Camera = () => {
                     }
                   }}
                   disabled={isRecording}
-                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                  className={`flex flex-col items-center justify-center w-14 h-14 rounded-xl shadow-lg transition-all ${
                     mode === 'video' && facingMode === 'environment'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
                   } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  <HiVideoCamera className="text-xl mb-0.5" />
-                  <span className="text-[10px] font-bold">Video</span>
+                  <HiVideoCamera className="text-lg mb-0.5" />
+                  <span className="text-[9px] font-bold">Video</span>
                 </button>
 
                 <button
@@ -311,14 +311,14 @@ const Camera = () => {
                     }
                   }}
                   disabled={isRecording}
-                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                  className={`flex flex-col items-center justify-center w-14 h-14 rounded-xl shadow-lg transition-all ${
                     mode === 'photo' && facingMode === 'user'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
                   } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  <MdCameraFront className="text-xl mb-0.5" />
-                  <span className="text-[10px] font-bold">Selfie</span>
+                  <MdCameraFront className="text-lg mb-0.5" />
+                  <span className="text-[9px] font-bold">Selfie</span>
                 </button>
               </div>
             </motion.div>
