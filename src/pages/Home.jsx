@@ -62,14 +62,6 @@ const Home = () => {
         <motion.div variants={itemVariants} className="space-y-4 mb-12">
           <Link
             to="/camera"
-            className="btn btn-primary group w-full max-w-md mx-auto flex items-center justify-center text-lg py-4 rounded-full shadow-lg hover:shadow-xl transition-all"
-          >
-            <HiCamera className="mr-3 text-xl" />
-            Maak een foto
-          </Link>
-
-          <Link
-            to="/camera"
             className="btn bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group w-full max-w-md mx-auto flex items-center justify-center text-lg py-4 rounded-full shadow-md hover:shadow-lg transition-all relative"
           >
             <HiVideoCamera className="mr-3 text-xl" />

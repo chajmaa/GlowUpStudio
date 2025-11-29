@@ -17,6 +17,8 @@ const Camera = () => {
   const [recordingTime, setRecordingTime] = useState(0);
   const [recordingTimer, setRecordingTimer] = useState(null);
   const [facingMode, setFacingMode] = useState('environment'); // 'user' or 'environment'
+  const [countdown, setCountdown] = useState(null);
+  const countdownTimerRef = useRef(null);
 
   useEffect(() => {
     startCamera();
@@ -67,7 +69,7 @@ const Camera = () => {
     }
   };
 
-  const capturePhoto = () => {
+  const capturePhotoNow = () => {
     if (!videoRef.current || !canvasRef.current) {
       console.error('Video of canvas ref niet beschikbaar');
       return;
@@ -111,7 +113,23 @@ const Camera = () => {
     navigate('/filters', { state: { photoData } });
   };
 
-  const startRecording = () => {
+  const capturePhoto = () => {
+    setCountdown(5);
+    let count = 5;
+
+    countdownTimerRef.current = setInterval(() => {
+      count -= 1;
+      setCountdown(count);
+
+      if (count === 0) {
+        clearInterval(countdownTimerRef.current);
+        setCountdown(null);
+        capturePhotoNow();
+      }
+    }, 1000);
+  };
+
+  const startRecordingNow = () => {
     if (!videoRef.current || !videoRef.current.srcObject) return;
 
     recordedChunksRef.current = [];
@@ -164,6 +182,22 @@ const Camera = () => {
     setRecordingTimer(timer);
   };
 
+  const startRecording = () => {
+    setCountdown(5);
+    let count = 5;
+
+    countdownTimerRef.current = setInterval(() => {
+      count -= 1;
+      setCountdown(count);
+
+      if (count === 0) {
+        clearInterval(countdownTimerRef.current);
+        setCountdown(null);
+        startRecordingNow();
+      }
+    }, 1000);
+  };
+
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
@@ -189,6 +223,13 @@ const Camera = () => {
 
   const toggleCamera = () => {
     setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
+  };
+
+  const cancelCountdown = () => {
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      setCountdown(null);
+    }
   };
 
   return (
@@ -219,6 +260,26 @@ const Camera = () => {
         />
 
         <canvas ref={canvasRef} className="hidden" />
+
+        {countdown !== null && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-40">
+            <motion.div
+              key={countdown}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 1.5, opacity: 0 }}
+              className="text-white text-9xl font-bold"
+            >
+              {countdown}
+            </motion.div>
+            <button
+              onClick={cancelCountdown}
+              className="absolute bottom-20 bg-red-500 text-white px-6 py-3 rounded-full font-bold hover:bg-red-600 transition-colors"
+            >
+              Annuleren
+            </button>
+          </div>
+        )}
 
         {isRecording && (
           <div className="absolute top-16 left-3 bg-red-500 text-white px-2 py-1 rounded-full flex items-center gap-1 text-sm z-30">
