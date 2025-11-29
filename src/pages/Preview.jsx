@@ -108,7 +108,6 @@ const Preview = () => {
       const video = document.createElement('video');
       video.src = videoData;
       video.crossOrigin = 'anonymous';
-      video.muted = true;
       video.playsInline = true;
 
       await video.play();
@@ -130,10 +129,22 @@ const Preview = () => {
         filterImg.src = selectedFilter.imageUrl;
       });
 
-      const stream = canvas.captureStream(30);
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'video/webm;codecs=vp9',
-        videoBitsPerSecond: 10000000
+      const videoStream = canvas.captureStream(30);
+      const audioContext = new AudioContext();
+      const source = audioContext.createMediaElementSource(video);
+      const destination = audioContext.createMediaStreamDestination();
+      source.connect(destination);
+      source.connect(audioContext.destination);
+
+      const audioTrack = destination.stream.getAudioTracks()[0];
+      if (audioTrack) {
+        videoStream.addTrack(audioTrack);
+      }
+
+      const mediaRecorder = new MediaRecorder(videoStream, {
+        mimeType: 'video/webm;codecs=vp9,opus',
+        videoBitsPerSecond: 10000000,
+        audioBitsPerSecond: 128000
       });
 
       const chunks = [];
@@ -148,6 +159,7 @@ const Preview = () => {
         const url = URL.createObjectURL(blob);
         setFinalVideoUrl(url);
         setIsProcessing(false);
+        audioContext.close();
       };
 
       mediaRecorder.start();
@@ -288,8 +300,8 @@ const Preview = () => {
                   src={finalVideoUrl}
                   autoPlay
                   loop
-                  muted
                   playsInline
+                  controls
                   className="w-full h-full object-cover"
                 />
               ) : (

@@ -72,7 +72,6 @@ const TextPage = () => {
                   src={videoData}
                   autoPlay
                   loop
-                  muted
                   playsInline
                   className="w-full h-full object-cover"
                 />
