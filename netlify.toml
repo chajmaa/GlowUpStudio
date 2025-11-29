@@ -1,0 +1,8 @@
+[build]
+  publish = "docs"
+  command = "echo 'Using pre-built files from docs folder'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
