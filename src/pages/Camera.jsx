@@ -167,8 +167,8 @@ const Camera = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-black">
-      <div className="absolute top-0 left-0 right-0 z-10 p-3 bg-gradient-to-b from-black/60 to-transparent">
+    <div className="fixed inset-0 bg-black">
+      <div className="absolute top-0 left-0 right-0 z-20 p-3 bg-gradient-to-b from-black/60 to-transparent">
         <div className="flex items-center">
           <button
             onClick={() => navigate('/')}
@@ -179,121 +179,118 @@ const Camera = () => {
         </div>
       </div>
 
-      <div className="flex-1 w-full relative">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="w-full h-full relative"
-        >
-          <div className="absolute inset-0 bg-black overflow-hidden">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-            />
-            {isRecording && (
-              <div className="absolute top-16 left-3 bg-red-500 text-white px-2 py-1 rounded-full flex items-center gap-1 text-sm">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                <span className="font-bold">{recordingTime}s</span>
-              </div>
-            )}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="absolute inset-0"
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="w-full h-full object-cover"
+        />
+
+        <canvas ref={canvasRef} className="hidden" />
+
+        {isRecording && (
+          <div className="absolute top-16 left-3 bg-red-500 text-white px-2 py-1 rounded-full flex items-center gap-1 text-sm z-30">
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+            <span className="font-bold">{recordingTime}s</span>
           </div>
+        )}
 
-          <canvas ref={canvasRef} className="hidden" />
-
-          {isCameraReady && (
-            <>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-20 left-0 right-0 flex justify-center"
+        {isCameraReady && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="absolute bottom-20 left-0 right-0 flex justify-center z-30"
+            >
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={handleCapture}
+                className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg ${
+                  isRecording ? 'bg-red-500' : 'bg-white'
+                }`}
               >
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
-                  onClick={handleCapture}
-                  className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg ${
-                    isRecording ? 'bg-red-500' : 'bg-white'
+                <div className={`w-14 h-14 rounded-full border-2 flex items-center justify-center ${
+                  isRecording
+                    ? 'border-white'
+                    : 'border-primary-500'
+                }`}>
+                  {mode === 'photo' ? (
+                    <HiCamera className="text-2xl text-primary-500" />
+                  ) : (
+                    isRecording ? (
+                      <div className="w-6 h-6 bg-white rounded-sm" />
+                    ) : (
+                      <div className="w-6 h-6 bg-red-500 rounded-full" />
+                    )
+                  )}
+                </div>
+              </motion.button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="absolute bottom-3 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-8 pb-3 z-30"
+            >
+              <div className="flex justify-center items-center gap-3 px-4">
+                <button
+                  onClick={() => {
+                    setMode('photo');
+                    setFacingMode('environment');
+                  }}
+                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                    mode === 'photo' && facingMode === 'environment'
+                      ? 'bg-yellow-300 text-gray-900'
+                      : 'bg-white/20 text-white backdrop-blur-sm'
                   }`}
                 >
-                  <div className={`w-14 h-14 rounded-full border-2 flex items-center justify-center ${
-                    isRecording
-                      ? 'border-white'
-                      : 'border-primary-500'
-                  }`}>
-                    {mode === 'photo' ? (
-                      <HiCamera className="text-2xl text-primary-500" />
-                    ) : (
-                      isRecording ? (
-                        <div className="w-6 h-6 bg-white rounded-sm" />
-                      ) : (
-                        <div className="w-6 h-6 bg-red-500 rounded-full" />
-                      )
-                    )}
-                  </div>
-                </motion.button>
-              </motion.div>
+                  <HiCamera className="text-xl mb-0.5" />
+                  <span className="text-[10px] font-bold">Foto</span>
+                </button>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-3 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-8 pb-3"
-              >
-                <div className="flex justify-center items-center gap-3 px-4">
-                  <button
-                    onClick={() => {
-                      setMode('photo');
-                      setFacingMode('environment');
-                    }}
-                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
-                      mode === 'photo' && facingMode === 'environment'
-                        ? 'bg-yellow-300 text-gray-900'
-                        : 'bg-white/20 text-white backdrop-blur-sm'
-                    }`}
-                  >
-                    <HiCamera className="text-xl mb-0.5" />
-                    <span className="text-[10px] font-bold">Foto</span>
-                  </button>
+                <button
+                  onClick={() => {
+                    setMode('video');
+                    setFacingMode('environment');
+                  }}
+                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                    mode === 'video' && facingMode === 'environment'
+                      ? 'bg-yellow-300 text-gray-900'
+                      : 'bg-white/20 text-white backdrop-blur-sm'
+                  }`}
+                >
+                  <HiVideoCamera className="text-xl mb-0.5" />
+                  <span className="text-[10px] font-bold">Video</span>
+                </button>
 
-                  <button
-                    onClick={() => {
-                      setMode('video');
-                      setFacingMode('environment');
-                    }}
-                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
-                      mode === 'video' && facingMode === 'environment'
-                        ? 'bg-yellow-300 text-gray-900'
-                        : 'bg-white/20 text-white backdrop-blur-sm'
-                    }`}
-                  >
-                    <HiVideoCamera className="text-xl mb-0.5" />
-                    <span className="text-[10px] font-bold">Video</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setMode('photo');
-                      setFacingMode('user');
-                    }}
-                    className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
-                      mode === 'photo' && facingMode === 'user'
-                        ? 'bg-yellow-300 text-gray-900'
-                        : 'bg-white/20 text-white backdrop-blur-sm'
-                    }`}
-                  >
-                    <MdCameraFront className="text-xl mb-0.5" />
-                    <span className="text-[10px] font-bold">Selfie</span>
-                  </button>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </motion.div>
-      </div>
+                <button
+                  onClick={() => {
+                    setMode('photo');
+                    setFacingMode('user');
+                  }}
+                  className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
+                    mode === 'photo' && facingMode === 'user'
+                      ? 'bg-yellow-300 text-gray-900'
+                      : 'bg-white/20 text-white backdrop-blur-sm'
+                  }`}
+                >
+                  <MdCameraFront className="text-xl mb-0.5" />
+                  <span className="text-[10px] font-bold">Selfie</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </motion.div>
     </div>
   );
 };
