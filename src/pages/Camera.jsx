@@ -269,14 +269,17 @@ const Camera = () => {
               <div className="flex justify-center items-center gap-3 px-4">
                 <button
                   onClick={() => {
-                    setMode('photo');
-                    setFacingMode('environment');
+                    if (!isRecording) {
+                      setMode('photo');
+                      setFacingMode('environment');
+                    }
                   }}
+                  disabled={isRecording}
                   className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
                     mode === 'photo' && facingMode === 'environment'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
-                  }`}
+                  } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <HiCamera className="text-xl mb-0.5" />
                   <span className="text-[10px] font-bold">Foto</span>
@@ -284,14 +287,17 @@ const Camera = () => {
 
                 <button
                   onClick={() => {
-                    setMode('video');
-                    setFacingMode('environment');
+                    if (!isRecording) {
+                      setMode('video');
+                      setFacingMode('environment');
+                    }
                   }}
+                  disabled={isRecording}
                   className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
                     mode === 'video' && facingMode === 'environment'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
-                  }`}
+                  } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <HiVideoCamera className="text-xl mb-0.5" />
                   <span className="text-[10px] font-bold">Video</span>
@@ -299,14 +305,17 @@ const Camera = () => {
 
                 <button
                   onClick={() => {
-                    setMode('photo');
-                    setFacingMode('user');
+                    if (!isRecording) {
+                      setMode('photo');
+                      setFacingMode('user');
+                    }
                   }}
+                  disabled={isRecording}
                   className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl shadow-lg transition-all ${
                     mode === 'photo' && facingMode === 'user'
                       ? 'bg-yellow-300 text-gray-900'
                       : 'bg-white/20 text-white backdrop-blur-sm'
-                  }`}
+                  } ${isRecording ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <MdCameraFront className="text-xl mb-0.5" />
                   <span className="text-[10px] font-bold">Selfie</span>
