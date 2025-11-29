@@ -1,6 +1,7 @@
 [build]
-  publish = "docs"
-  command = "echo 'Using pre-built files from docs folder'"
+  base = "project- app - glowupstudio"
+  publish = "project- app - glowupstudio/dist"
+  command = "npm install && npm run build"
 
 [[redirects]]
   from = "/*"
