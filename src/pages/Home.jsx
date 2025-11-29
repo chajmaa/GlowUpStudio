@@ -65,7 +65,7 @@ const Home = () => {
             className="btn bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group w-full max-w-md mx-auto flex items-center justify-center text-lg py-4 rounded-full shadow-md hover:shadow-lg transition-all relative"
           >
             <HiVideoCamera className="mr-3 text-xl" />
-            Neem een video op
+            Neem een foto of video op
             <span className="ml-auto mr-4">→</span>
           </Link>
         </motion.div>
