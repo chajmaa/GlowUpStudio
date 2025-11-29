@@ -54,7 +54,8 @@ const Camera = () => {
         video: {
           facingMode: facingMode,
           width: { ideal: 1920 },
-          height: { ideal: 1080 }
+          height: { ideal: 1920 },
+          aspectRatio: { ideal: 1 }
         },
         audio: mode === 'video'
       });
