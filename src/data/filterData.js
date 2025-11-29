@@ -1,10 +1,10 @@
 const filterData = [
   {
-    id: 'pensioen-bart',
-    name: 'Pensioen Bart',
-    description: 'Speciale pensioen viering voor Bart',
-    imageUrl: '/Pensioen-Bart.png',
-    thumbnailUrl: '/Pensioen-Bart.png'
+    id: 'love',
+    name: 'Love Filter',
+    description: 'Romantische vibes voor je foto',
+    imageUrl: '/LoveFilter.png',
+    thumbnailUrl: '/LoveFilter.png'
   },
   {
     id: 'retirement',
