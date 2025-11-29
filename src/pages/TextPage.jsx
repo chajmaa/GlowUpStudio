@@ -77,9 +77,9 @@ const TextPage = () => {
               />
               
               {quote && (
-                <div 
+                <div
                   className={`absolute w-full px-6 py-3 text-center ${
-                    textPosition === 'top' ? 'top-6' : 'top-1/2 -translate-y-1/2'
+                    textPosition === 'top' ? 'top-6' : 'bottom-6'
                   }`}
                 >
                   <p className="text-yellow-300 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
@@ -118,22 +118,22 @@ const TextPage = () => {
               <button
                 onClick={() => setTextPosition('top')}
                 className={`px-3 py-2 rounded-md text-sm font-bold ${
-                  textPosition === 'top' 
-                    ? 'bg-yellow-300/20 text-yellow-300 border border-yellow-300' 
+                  textPosition === 'top'
+                    ? 'bg-yellow-300/20 text-yellow-300 border border-yellow-300'
                     : 'bg-gray-100 text-yellow-300 dark:bg-gray-700'
                 }`}
               >
                 Boven
               </button>
               <button
-                onClick={() => setTextPosition('middle')}
+                onClick={() => setTextPosition('bottom')}
                 className={`px-3 py-2 rounded-md text-sm font-bold ${
-                  textPosition === 'middle' 
-                    ? 'bg-yellow-300/20 text-yellow-300 border border-yellow-300' 
+                  textPosition === 'bottom'
+                    ? 'bg-yellow-300/20 text-yellow-300 border border-yellow-300'
                     : 'bg-gray-100 text-yellow-300 dark:bg-gray-700'
                 }`}
               >
-                Midden
+                Onder
               </button>
             </div>
           </div>
