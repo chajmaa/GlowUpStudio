@@ -8,17 +8,17 @@ import filterData from '../data/filterData';
 const FilterPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { photoData } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo } = location.state || {};
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   
   useEffect(() => {
-    if (!photoData) {
+    if (!photoData && !videoData) {
       navigate('/camera');
-    } else {
+    } else if (photoData) {
       setPreviewImage(photoData);
     }
-  }, [photoData, navigate]);
+  }, [photoData, videoData, navigate]);
 
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
@@ -26,9 +26,12 @@ const FilterPage = () => {
 
   const handleContinue = () => {
     if (selectedFilter) {
-      navigate('/text', { 
-        state: { 
+      navigate('/text', {
+        state: {
           photoData,
+          videoData,
+          videoBlob,
+          isVideo,
           selectedFilter
         }
       });
@@ -50,24 +53,35 @@ const FilterPage = () => {
           </h1>
         </div>
 
-        {previewImage && (
-          <motion.div 
+        {(previewImage || videoData) && (
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className="relative mb-6"
           >
             <div className="aspect-square w-full rounded-xl overflow-hidden shadow-md relative">
-              <img 
-                src={previewImage} 
-                alt="Je foto" 
-                className="w-full h-full object-cover"
-              />
+              {isVideo ? (
+                <video
+                  src={videoData}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={previewImage}
+                  alt="Je foto"
+                  className="w-full h-full object-cover"
+                />
+              )}
               {selectedFilter && (
-                <img 
-                  src={selectedFilter.imageUrl} 
+                <img
+                  src={selectedFilter.imageUrl}
                   alt={selectedFilter.name}
-                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
                 />
               )}
             </div>

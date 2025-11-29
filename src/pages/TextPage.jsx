@@ -6,7 +6,7 @@ import { HiOutlineArrowLeft, HiCheck } from 'react-icons/hi';
 const TextPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { photoData, selectedFilter } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, selectedFilter } = location.state || {};
   const [quote, setQuote] = useState('');
   const [textPosition, setTextPosition] = useState('top');
   const [textColor] = useState('yellow');
@@ -15,10 +15,10 @@ const TextPage = () => {
   const MAX_CHARS = 60;
   
   useEffect(() => {
-    if (!photoData || !selectedFilter) {
+    if ((!photoData && !videoData) || !selectedFilter) {
       navigate('/camera');
     }
-  }, [photoData, selectedFilter, navigate]);
+  }, [photoData, videoData, selectedFilter, navigate]);
 
   const handleQuoteChange = (e) => {
     const newValue = e.target.value;
@@ -31,6 +31,9 @@ const TextPage = () => {
     navigate('/preview', {
       state: {
         photoData,
+        videoData,
+        videoBlob,
+        isVideo,
         selectedFilter,
         textOptions: {
           quote,
@@ -45,8 +48,8 @@ const TextPage = () => {
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-lg mx-auto p-4">
         <div className="flex items-center mb-4">
-          <button 
-            onClick={() => navigate('/filters', { state: { photoData } })}
+          <button
+            onClick={() => navigate('/filters', { state: { photoData, videoData, videoBlob, isVideo } })}
             className="flex items-center text-yellow-300 hover:text-yellow-400"
           >
             <HiOutlineArrowLeft className="mr-1" /> Terug
@@ -56,26 +59,37 @@ const TextPage = () => {
           </h1>
         </div>
 
-        {photoData && selectedFilter && (
-          <motion.div 
+        {(photoData || videoData) && selectedFilter && (
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className="relative mb-6"
           >
             <div className="aspect-square w-full rounded-xl overflow-hidden shadow-md relative">
-              <img 
-                src={photoData} 
-                alt="Je foto" 
-                className="w-full h-full object-cover"
-              />
-              
-              <img 
-                src={selectedFilter.imageUrl} 
-                alt={selectedFilter.name} 
+              {isVideo ? (
+                <video
+                  src={videoData}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={photoData}
+                  alt="Je foto"
+                  className="w-full h-full object-cover"
+                />
+              )}
+
+              <img
+                src={selectedFilter.imageUrl}
+                alt={selectedFilter.name}
                 className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
               />
-              
+
               {quote && (
                 <div
                   className={`absolute w-full px-6 py-3 text-center ${
