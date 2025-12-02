@@ -206,19 +206,23 @@ const Camera = () => {
   };
 
   const startRecording = () => {
-    setCountdown(5);
-    let count = 5;
+    if (facingMode === 'user') {
+      setCountdown(5);
+      let count = 5;
 
-    countdownTimerRef.current = setInterval(() => {
-      count -= 1;
-      setCountdown(count);
+      countdownTimerRef.current = setInterval(() => {
+        count -= 1;
+        setCountdown(count);
 
-      if (count === 0) {
-        clearInterval(countdownTimerRef.current);
-        setCountdown(null);
-        startRecordingNow();
-      }
-    }, 1000);
+        if (count === 0) {
+          clearInterval(countdownTimerRef.current);
+          setCountdown(null);
+          startRecordingNow();
+        }
+      }, 1000);
+    } else {
+      startRecordingNow();
+    }
   };
 
   const stopRecording = () => {
