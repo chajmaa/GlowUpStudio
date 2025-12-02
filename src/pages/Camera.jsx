@@ -115,23 +115,19 @@ const Camera = () => {
   };
 
   const capturePhoto = () => {
-    if (facingMode === 'user') {
-      setCountdown(5);
-      let count = 5;
+    setCountdown(5);
+    let count = 5;
 
-      countdownTimerRef.current = setInterval(() => {
-        count -= 1;
-        setCountdown(count);
+    countdownTimerRef.current = setInterval(() => {
+      count -= 1;
+      setCountdown(count);
 
-        if (count === 0) {
-          clearInterval(countdownTimerRef.current);
-          setCountdown(null);
-          capturePhotoNow();
-        }
-      }, 1000);
-    } else {
-      capturePhotoNow();
-    }
+      if (count === 0) {
+        clearInterval(countdownTimerRef.current);
+        setCountdown(null);
+        capturePhotoNow();
+      }
+    }, 1000);
   };
 
   const startRecordingNow = () => {
@@ -261,7 +257,7 @@ const Camera = () => {
           autoPlay
           playsInline
           muted
-          className="w-full h-full object-cover scale-90"
+          className="w-full h-full object-cover"
         />
 
         <canvas ref={canvasRef} className="hidden" />
