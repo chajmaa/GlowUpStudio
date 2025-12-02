@@ -6,7 +6,7 @@ import { HiOutlineArrowLeft, HiCheck } from 'react-icons/hi';
 const TextPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { photoData, videoData, videoBlob, isVideo, selectedFilter } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, selectedFilter, facingMode } = location.state || {};
   const [quote, setQuote] = useState('');
   const [textPosition, setTextPosition] = useState('top');
   const [textColor] = useState('yellow');
@@ -35,6 +35,7 @@ const TextPage = () => {
         videoBlob,
         isVideo,
         selectedFilter,
+        facingMode,
         textOptions: {
           quote,
           position: textPosition,
@@ -49,7 +50,7 @@ const TextPage = () => {
       <div className="w-full max-w-lg mx-auto p-4">
         <div className="flex items-center mb-4">
           <button
-            onClick={() => navigate('/filters', { state: { photoData, videoData, videoBlob, isVideo } })}
+            onClick={() => navigate('/filters', { state: { photoData, videoData, videoBlob, isVideo, facingMode } })}
             className="flex items-center text-yellow-300 hover:text-yellow-400"
           >
             <HiOutlineArrowLeft className="mr-1" /> Terug

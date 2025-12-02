@@ -11,14 +11,16 @@ const Preview = () => {
   const videoRef = useRef(null);
   const [finalImageUrl, setFinalImageUrl] = useState(null);
   const [finalVideoUrl, setFinalVideoUrl] = useState(null);
+  const [finalVideoBlob, setFinalVideoBlob] = useState(null);
   const [email, setEmail] = useState('');
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const processingRef = useRef(false);
 
-  const { photoData, videoData, videoBlob, isVideo, selectedFilter, textOptions } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, selectedFilter, textOptions, videoMimeType, facingMode } = location.state || {};
 
   useEffect(() => {
     if ((!photoData && !videoData) || !selectedFilter || !textOptions) {
@@ -26,12 +28,13 @@ const Preview = () => {
       return;
     }
 
-    if (isVideo) {
+    if (isVideo && !processingRef.current) {
+      processingRef.current = true;
       renderVideoWithFilter();
-    } else {
+    } else if (!isVideo) {
       renderFinalImage();
     }
-  }, [photoData, videoData, isVideo, selectedFilter, textOptions, navigate]);
+  }, []);
 
   const renderFinalImage = async () => {
     if (!canvasRef.current) return;
@@ -109,11 +112,16 @@ const Preview = () => {
       video.src = videoData;
       video.crossOrigin = 'anonymous';
       video.playsInline = true;
+      video.muted = false;
 
-      await video.play();
-      await new Promise(resolve => setTimeout(resolve, 100));
-      video.pause();
+      await new Promise((resolve) => {
+        video.onloadedmetadata = resolve;
+      });
+
       video.currentTime = 0;
+      await new Promise((resolve) => {
+        video.onseeked = resolve;
+      });
 
       const canvas = document.createElement('canvas');
       canvas.width = 1920;
@@ -129,20 +137,43 @@ const Preview = () => {
         filterImg.src = selectedFilter.imageUrl;
       });
 
-      const videoStream = canvas.captureStream(30);
-      const audioContext = new AudioContext();
-      const source = audioContext.createMediaElementSource(video);
-      const destination = audioContext.createMediaStreamDestination();
-      source.connect(destination);
-      source.connect(audioContext.destination);
+      const shouldMirror = facingMode === 'user';
 
-      const audioTrack = destination.stream.getAudioTracks()[0];
-      if (audioTrack) {
-        videoStream.addTrack(audioTrack);
+      const videoStream = canvas.captureStream(30);
+
+      let finalStream = videoStream;
+      let audioContext = null;
+
+      if (video.mozHasAudio !== false && video.webkitAudioDecodedByteCount !== 0) {
+        try {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const source = audioContext.createMediaElementSource(video);
+          const destination = audioContext.createMediaStreamDestination();
+          source.connect(destination);
+          source.connect(audioContext.destination);
+
+          const audioTrack = destination.stream.getAudioTracks()[0];
+          if (audioTrack) {
+            finalStream.addTrack(audioTrack);
+          }
+        } catch (audioError) {
+          console.warn('Audio processing failed:', audioError);
+        }
       }
 
-      const mediaRecorder = new MediaRecorder(videoStream, {
-        mimeType: 'video/webm;codecs=vp9,opus',
+      let mimeType = 'video/webm;codecs=vp9,opus';
+      if (MediaRecorder.isTypeSupported('video/mp4')) {
+        mimeType = 'video/mp4';
+      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=h264,opus')) {
+        mimeType = 'video/webm;codecs=h264,opus';
+      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+        mimeType = 'video/webm;codecs=vp9,opus';
+      } else if (MediaRecorder.isTypeSupported('video/webm')) {
+        mimeType = 'video/webm';
+      }
+
+      const mediaRecorder = new MediaRecorder(finalStream, {
+        mimeType: mimeType,
         videoBitsPerSecond: 10000000,
         audioBitsPerSecond: 128000
       });
@@ -155,14 +186,18 @@ const Preview = () => {
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
+        const blob = new Blob(chunks, { type: mimeType });
         const url = URL.createObjectURL(blob);
         setFinalVideoUrl(url);
+        setFinalVideoBlob(blob);
         setIsProcessing(false);
-        audioContext.close();
+        if (audioContext) {
+          audioContext.close();
+        }
       };
 
       mediaRecorder.start();
+      video.currentTime = 0;
       video.play();
 
       const drawFrame = () => {
@@ -171,7 +206,17 @@ const Preview = () => {
           return;
         }
 
+        ctx.save();
+
+        if (shouldMirror) {
+          ctx.translate(canvas.width, 0);
+          ctx.scale(-1, 1);
+        }
+
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        ctx.restore();
+
         ctx.drawImage(filterImg, 0, 0, canvas.width, canvas.height);
 
         if (textOptions.quote) {
@@ -212,10 +257,11 @@ const Preview = () => {
     } catch (error) {
       console.error('Video processing error:', error);
       setIsProcessing(false);
+      processingRef.current = false;
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (isVideo && !finalVideoUrl) return;
     if (!isVideo && !finalImageUrl) return;
 
@@ -224,7 +270,10 @@ const Preview = () => {
     try {
       const link = document.createElement('a');
       link.href = isVideo ? finalVideoUrl : finalImageUrl;
-      link.download = isVideo ? 'glowupstudio_video.webm' : 'glowupstudio_selfie.jpg';
+
+      const extension = isVideo ? 'mp4' : 'jpg';
+      link.download = isVideo ? `glowupstudio_video.${extension}` : 'glowupstudio_selfie.jpg';
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -267,7 +316,7 @@ const Preview = () => {
         <div className="flex items-center mb-4">
           <button
             onClick={() => navigate('/text', {
-              state: { photoData, videoData, videoBlob, isVideo, selectedFilter }
+              state: { photoData, videoData, videoBlob, isVideo, selectedFilter, facingMode }
             })}
             className="flex items-center text-yellow-300 hover:text-yellow-400"
           >

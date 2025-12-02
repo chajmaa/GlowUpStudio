@@ -8,7 +8,7 @@ import filterData from '../data/filterData';
 const FilterPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { photoData, videoData, videoBlob, isVideo } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, facingMode } = location.state || {};
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   
@@ -32,7 +32,8 @@ const FilterPage = () => {
           videoData,
           videoBlob,
           isVideo,
-          selectedFilter
+          selectedFilter,
+          facingMode
         }
       });
     }

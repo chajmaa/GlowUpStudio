@@ -136,14 +136,28 @@ const Camera = () => {
     recordedChunksRef.current = [];
 
     const stream = videoRef.current.srcObject;
-    const options = {
-      mimeType: 'video/webm;codecs=vp9',
-      videoBitsPerSecond: 8000000
-    };
+    let options = {};
 
-    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-      options.mimeType = 'video/webm';
-      options.videoBitsPerSecond = 8000000;
+    if (MediaRecorder.isTypeSupported('video/mp4')) {
+      options = {
+        mimeType: 'video/mp4',
+        videoBitsPerSecond: 8000000
+      };
+    } else if (MediaRecorder.isTypeSupported('video/webm;codecs=h264')) {
+      options = {
+        mimeType: 'video/webm;codecs=h264',
+        videoBitsPerSecond: 8000000
+      };
+    } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
+      options = {
+        mimeType: 'video/webm;codecs=vp9',
+        videoBitsPerSecond: 8000000
+      };
+    } else {
+      options = {
+        mimeType: 'video/webm',
+        videoBitsPerSecond: 8000000
+      };
     }
 
     mediaRecorderRef.current = new MediaRecorder(stream, options);
@@ -155,15 +169,23 @@ const Camera = () => {
     };
 
     mediaRecorderRef.current.onstop = () => {
-      const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+      const mimeType = mediaRecorderRef.current.mimeType || 'video/webm';
+      const blob = new Blob(recordedChunksRef.current, { type: mimeType });
       const videoUrl = URL.createObjectURL(blob);
 
-      // Stop camera stream
       if (videoRef.current && videoRef.current.srcObject) {
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       }
 
-      navigate('/filters', { state: { videoData: videoUrl, videoBlob: blob, isVideo: true } });
+      navigate('/filters', {
+        state: {
+          videoData: videoUrl,
+          videoBlob: blob,
+          isVideo: true,
+          videoMimeType: mimeType,
+          facingMode: facingMode
+        }
+      });
     };
 
     mediaRecorderRef.current.start();
