@@ -120,8 +120,20 @@ const Camera = () => {
       return;
     }
 
-    const targetWidth = Math.min(video.videoWidth, 3840);
-    const targetHeight = Math.min(video.videoHeight, 2160);
+    const videoAspectRatio = video.videoWidth / video.videoHeight;
+
+    let targetWidth = video.videoWidth;
+    let targetHeight = video.videoHeight;
+
+    if (targetWidth > 3840) {
+      targetWidth = 3840;
+      targetHeight = Math.round(targetWidth / videoAspectRatio);
+    }
+
+    if (targetHeight > 2160) {
+      targetHeight = 2160;
+      targetWidth = Math.round(targetHeight * videoAspectRatio);
+    }
 
     canvas.width = targetWidth;
     canvas.height = targetHeight;
@@ -130,7 +142,7 @@ const Camera = () => {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, targetWidth, targetHeight);
+    ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
 
     const photoData = canvas.toDataURL('image/jpeg', 0.95);
 
