@@ -54,8 +54,7 @@ const Camera = () => {
         video: {
           facingMode: facingMode,
           width: { ideal: 1920 },
-          height: { ideal: 1920 },
-          aspectRatio: { ideal: 1 }
+          height: { ideal: 1080 }
         },
         audio: mode === 'video'
       });
@@ -84,26 +83,11 @@ const Camera = () => {
       return;
     }
 
-    canvas.width = 1920;
-    canvas.height = 1920;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
     const ctx = canvas.getContext('2d');
-
-    const videoAspect = video.videoWidth / video.videoHeight;
-    let sx = 0;
-    let sy = 0;
-    let sWidth = video.videoWidth;
-    let sHeight = video.videoHeight;
-
-    if (videoAspect > 1) {
-      sWidth = video.videoHeight;
-      sx = (video.videoWidth - sWidth) / 2;
-    } else {
-      sHeight = video.videoWidth;
-      sy = (video.videoHeight - sHeight) / 2;
-    }
-
-    ctx.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     const photoData = canvas.toDataURL('image/jpeg', 1.0);
 
