@@ -120,29 +120,23 @@ const Camera = () => {
       return;
     }
 
-    const videoAspectRatio = video.videoWidth / video.videoHeight;
-
-    let targetWidth = video.videoWidth;
-    let targetHeight = video.videoHeight;
-
-    if (targetWidth > 3840) {
-      targetWidth = 3840;
-      targetHeight = Math.round(targetWidth / videoAspectRatio);
-    }
-
-    if (targetHeight > 2160) {
-      targetHeight = 2160;
-      targetWidth = Math.round(targetHeight * videoAspectRatio);
-    }
-
-    canvas.width = targetWidth;
-    canvas.height = targetHeight;
+    const size = 1920;
+    canvas.width = size;
+    canvas.height = size;
 
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+    const sourceSize = Math.min(video.videoWidth, video.videoHeight);
+    const sourceX = (video.videoWidth - sourceSize) / 2;
+    const sourceY = (video.videoHeight - sourceSize) / 2;
+
+    ctx.drawImage(
+      video,
+      sourceX, sourceY, sourceSize, sourceSize,
+      0, 0, size, size
+    );
 
     const photoData = canvas.toDataURL('image/jpeg', 0.95);
 
@@ -150,7 +144,7 @@ const Camera = () => {
       video.srcObject.getTracks().forEach(track => track.stop());
     }
 
-    navigate('/filters', { state: { photoData } });
+    navigate('/filters', { state: { photoData, facingMode } });
   };
 
   const capturePhoto = () => {
@@ -333,14 +327,21 @@ const Camera = () => {
           </div>
         ) : (
           <>
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-              style={{ imageRendering: 'crisp-edges' }}
-            />
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="min-w-full min-h-full object-cover"
+                style={{
+                  imageRendering: 'crisp-edges',
+                  aspectRatio: '1 / 1',
+                  width: '100vmax',
+                  height: '100vmax'
+                }}
+              />
+            </div>
             {!isCameraReady && (
               <div className="absolute inset-0 flex items-center justify-center bg-black">
                 <div className="text-white text-center">
