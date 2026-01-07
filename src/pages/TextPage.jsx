@@ -67,27 +67,27 @@ const TextPage = () => {
             transition={{ duration: 0.3 }}
             className="relative mb-6"
           >
-            <div className="aspect-square w-full rounded-xl overflow-hidden shadow-md relative">
+            <div className="w-full rounded-xl overflow-hidden shadow-md relative bg-black">
               {isVideo ? (
                 <video
                   src={videoData}
                   autoPlay
                   loop
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full object-contain"
                 />
               ) : (
                 <img
                   src={photoData}
                   alt="Je foto"
-                  className="w-full h-full object-cover"
+                  className="w-full object-contain"
                 />
               )}
 
               <img
                 src={selectedFilter.imageUrl}
                 alt={selectedFilter.name}
-                className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
+                className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none"
               />
 
               {quote && (
