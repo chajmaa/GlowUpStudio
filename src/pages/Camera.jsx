@@ -53,8 +53,9 @@ const Camera = () => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: facingMode,
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
+          width: { ideal: 3840, min: 1920 },
+          height: { ideal: 2160, min: 1080 },
+          aspectRatio: { ideal: 16/9 }
         },
         audio: mode === 'video'
       });
@@ -83,13 +84,19 @@ const Camera = () => {
       return;
     }
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const targetWidth = Math.min(video.videoWidth, 3840);
+    const targetHeight = Math.min(video.videoHeight, 2160);
+
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
 
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
-    const photoData = canvas.toDataURL('image/jpeg', 1.0);
+    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, targetWidth, targetHeight);
+
+    const photoData = canvas.toDataURL('image/jpeg', 0.95);
 
     if (video.srcObject) {
       video.srcObject.getTracks().forEach(track => track.stop());
@@ -268,6 +275,7 @@ const Camera = () => {
           playsInline
           muted
           className="w-full h-full object-cover"
+          style={{ imageRendering: 'crisp-edges' }}
         />
 
         <canvas ref={canvasRef} className="hidden" />
