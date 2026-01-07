@@ -10,8 +10,8 @@ const filterData = [
     id: 'retirement',
     name: 'Happy Retirement',
     description: 'Vier je pensioen met gouden vuurwerk',
-    imageUrl: '/happy_retirement! copy.png',
-    thumbnailUrl: '/happy_retirement! copy.png'
+    imageUrl: '/retirement-filter-new.png',
+    thumbnailUrl: '/retirement-filter-new.png'
   },
   {
     id: 'classic',
