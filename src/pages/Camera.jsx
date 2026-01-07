@@ -19,6 +19,7 @@ const Camera = () => {
   const [facingMode, setFacingMode] = useState('environment'); // 'user' or 'environment'
   const [countdown, setCountdown] = useState(null);
   const countdownTimerRef = useRef(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     startCamera();
@@ -34,6 +35,12 @@ const Camera = () => {
 
   const startCamera = async () => {
     try {
+      setError(null);
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Je browser ondersteunt geen camera toegang. Gebruik Chrome, Safari of Firefox.');
+      }
+
       if (mediaRecorderRef.current && isRecording) {
         mediaRecorderRef.current.stop();
         setIsRecording(false);
@@ -50,23 +57,52 @@ const Camera = () => {
 
       setIsCameraReady(false);
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: facingMode,
-          width: { ideal: 3840, min: 1920 },
-          height: { ideal: 2160, min: 1080 },
-          aspectRatio: { ideal: 16/9 }
-        },
-        audio: mode === 'video'
-      });
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: facingMode,
+            width: { ideal: 3840, min: 1920 },
+            height: { ideal: 2160, min: 1080 },
+            aspectRatio: { ideal: 16/9 }
+          },
+          audio: mode === 'video'
+        });
+      } catch (highResError) {
+        console.warn('4K niet beschikbaar, probeer Full HD', highResError);
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: facingMode,
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          },
+          audio: mode === 'video'
+        });
+      }
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setIsCameraReady(true);
       }
     } catch (error) {
-      console.error("Camera niet beschikbaar:", error);
-      alert("Camera niet beschikbaar: " + error.message);
+      console.error("Camera fout:", error);
+
+      let errorMessage = 'Camera niet beschikbaar';
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        errorMessage = 'Camera toegang geweigerd. Sta camera toegang toe in je browser instellingen.';
+      } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        errorMessage = 'Geen camera gevonden op dit apparaat.';
+      } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+        errorMessage = 'Camera is in gebruik door een andere app. Sluit andere apps die de camera gebruiken.';
+      } else if (error.name === 'OverconstrainedError') {
+        errorMessage = 'Camera ondersteunt de gevraagde instellingen niet.';
+      } else if (error.name === 'SecurityError') {
+        errorMessage = 'Camera alleen beschikbaar via HTTPS. Open de site via https://.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      setError(errorMessage);
     }
   };
 
@@ -269,14 +305,40 @@ const Camera = () => {
         transition={{ duration: 0.3 }}
         className="absolute inset-0"
       >
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="w-full h-full object-cover"
-          style={{ imageRendering: 'crisp-edges' }}
-        />
+        {error ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-black p-6">
+            <div className="bg-red-500/90 text-white p-6 rounded-2xl max-w-md text-center">
+              <div className="text-4xl mb-4">⚠️</div>
+              <h2 className="text-xl font-bold mb-3">Camera Probleem</h2>
+              <p className="mb-4">{error}</p>
+              <button
+                onClick={startCamera}
+                className="bg-white text-red-500 px-6 py-2 rounded-full font-bold hover:bg-gray-100 transition-colors"
+              >
+                Probeer opnieuw
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full h-full object-cover"
+              style={{ imageRendering: 'crisp-edges' }}
+            />
+            {!isCameraReady && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black">
+                <div className="text-white text-center">
+                  <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-300 mx-auto mb-4"></div>
+                  <p className="text-lg">Camera wordt geladen...</p>
+                </div>
+              </div>
+            )}
+          </>
+        )}
 
         <canvas ref={canvasRef} className="hidden" />
 
