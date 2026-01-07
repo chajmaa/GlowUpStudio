@@ -40,14 +40,13 @@ const Preview = () => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
+    canvas.width = 1920;
+    canvas.height = 1920;
     const ctx = canvas.getContext('2d');
 
     const photo = new Image();
     photo.crossOrigin = 'anonymous';
     photo.onload = () => {
-      canvas.width = photo.width;
-      canvas.height = photo.height;
-
       ctx.drawImage(photo, 0, 0, canvas.width, canvas.height);
 
       const filter = new Image();
@@ -125,14 +124,8 @@ const Preview = () => {
       });
 
       const canvas = document.createElement('canvas');
-
-      await video.play();
-      await new Promise((resolve) => {
-        video.onseeked = resolve;
-      });
-
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      canvas.width = 1920;
+      canvas.height = 1920;
       const ctx = canvas.getContext('2d');
 
       const filterImg = new Image();
@@ -349,7 +342,7 @@ const Preview = () => {
             transition={{ duration: 0.4 }}
             className="relative mb-6"
           >
-            <div className="w-full rounded-xl overflow-hidden shadow-lg bg-black">
+            <div className="aspect-square w-full rounded-xl overflow-hidden shadow-lg">
               {isVideo ? (
                 <video
                   ref={videoRef}
@@ -358,13 +351,13 @@ const Preview = () => {
                   loop
                   playsInline
                   controls
-                  className="w-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               ) : (
                 <img
                   src={finalImageUrl}
                   alt="Jouw creatie"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               )}
             </div>
