@@ -18,7 +18,7 @@ const Footer = () => {
           </div>
           
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            &copy; {currentYear} GlowUpStudio. Alle rechten voorbehouden.
+            &copy; {currentYear} GlowUpStudio made by Chajmaa Bellakhal. Alle rechten voorbehouden.
           </div>
         </div>
       </div>
