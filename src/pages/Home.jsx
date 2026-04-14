@@ -39,7 +39,7 @@ const Home = () => {
           <img
   src="/images/OIP.webp"
   alt="De Ortolaan"
-            className="w-40 mx-auto"
+            className="w-64 mx-auto"
 />
         </motion.div>
 
