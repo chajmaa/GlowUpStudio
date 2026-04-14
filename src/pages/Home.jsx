@@ -37,9 +37,8 @@ const Home = () => {
       >
         <motion.div variants={itemVariants} className="mb-8">
           <img
-  src="/ALO_ORT_LOGO_rgb-01.PNG"
+  src="/images/OIP.webp"
   alt="De Ortolaan"
-  className="w-40 mx-auto mb-4"
 />
         </motion.div>
 
