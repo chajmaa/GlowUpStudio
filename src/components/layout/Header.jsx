@@ -37,8 +37,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link to="/" className="flex items-center space-x-2">
             <img
-              src="/logo glowupstudio.png"
-              alt="GlowUp Studio"
+              src="/images/OIP.webp"
+              alt="De Ortolaan"
               className="h-8 w-auto"
             />
             <span className="text-xl font-semibold">
