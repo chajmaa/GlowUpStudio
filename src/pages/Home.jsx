@@ -37,12 +37,10 @@ const Home = () => {
       >
         <motion.div variants={itemVariants} className="mb-8">
           <img
-           <img 
   src="/ALO_ORT_LOGO_rgb-01.PNG"
   alt="De Ortolaan"
   className="w-40 mx-auto mb-4"
 />
-        
         </motion.div>
 
         <motion.h1
