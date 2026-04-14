@@ -36,11 +36,7 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link to="/" className="flex items-center space-x-2">
-            <img
-              src="/images/OIP.webp"
-              alt="De Ortolaan"
-              className="h-8 w-auto"
-            />
+            
             <span className="text-xl font-semibold">
               <span className="text-blue-600 dark:text-blue-500">Glow</span>
               <span className="text-purple-600 dark:text-purple-500">Up</span>
