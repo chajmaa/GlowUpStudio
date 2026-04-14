@@ -20,7 +20,7 @@ const Preview = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const processingRef = useRef(false);
 
-  const { photoData, videoData, videoBlob, isVideo, selectedFilter, textOptions, videoMimeType, facingMode } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, selectedFilter, textOptions, videoMimeType, facingMode, photoEditFilter } = location.state || {};
 
   useEffect(() => {
     if ((!photoData && !videoData) || !selectedFilter || !textOptions) {
@@ -47,7 +47,11 @@ const Preview = () => {
     const photo = new Image();
     photo.crossOrigin = 'anonymous';
     photo.onload = () => {
+      if (photoEditFilter?.css) {
+        ctx.filter = photoEditFilter.css;
+      }
       ctx.drawImage(photo, 0, 0, canvas.width, canvas.height);
+      ctx.filter = 'none';
 
       const filter = new Image();
       filter.crossOrigin = 'anonymous';
@@ -57,7 +61,7 @@ const Preview = () => {
         if (textOptions.quote) {
           ctx.font = 'bold 86px Inter, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillStyle = '#FFD700';
+          ctx.fillStyle = textOptions.color === 'white' ? '#FFFFFF' : textOptions.color === 'black' ? '#000000' : '#FFD700';
 
           ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
           ctx.shadowBlur = 4;
@@ -213,8 +217,13 @@ const Preview = () => {
           ctx.scale(-1, 1);
         }
 
+        if (photoEditFilter?.css) {
+          ctx.filter = photoEditFilter.css;
+        }
+
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+        ctx.filter = 'none';
         ctx.restore();
 
         ctx.drawImage(filterImg, 0, 0, canvas.width, canvas.height);
@@ -222,7 +231,7 @@ const Preview = () => {
         if (textOptions.quote) {
           ctx.font = 'bold 86px Inter, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillStyle = '#FFD700';
+          ctx.fillStyle = textOptions.color === 'white' ? '#FFFFFF' : textOptions.color === 'black' ? '#000000' : '#FFD700';
           ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
           ctx.shadowBlur = 4;
           ctx.shadowOffsetX = 2;

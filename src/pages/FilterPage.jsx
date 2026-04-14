@@ -26,7 +26,7 @@ const FilterPage = () => {
 
   const handleContinue = () => {
     if (selectedFilter) {
-      navigate('/text', {
+      navigate('/edit', {
         state: {
           photoData,
           videoData,

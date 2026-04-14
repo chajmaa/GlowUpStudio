@@ -6,10 +6,10 @@ import { HiOutlineArrowLeft, HiCheck } from 'react-icons/hi';
 const TextPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { photoData, videoData, videoBlob, isVideo, selectedFilter, facingMode } = location.state || {};
+  const { photoData, videoData, videoBlob, isVideo, selectedFilter, facingMode, photoEditFilter } = location.state || {};
   const [quote, setQuote] = useState('');
   const [textPosition, setTextPosition] = useState('top');
-  const [textColor] = useState('yellow');
+  const [textColor, setTextColor] = useState('yellow');
   const [isLoading, setIsLoading] = useState(false);
   
   const MAX_CHARS = 60;
@@ -36,6 +36,7 @@ const TextPage = () => {
         isVideo,
         selectedFilter,
         facingMode,
+        photoEditFilter,
         textOptions: {
           quote,
           position: textPosition,
@@ -50,7 +51,7 @@ const TextPage = () => {
       <div className="w-full max-w-lg mx-auto p-4">
         <div className="flex items-center mb-4">
           <button
-            onClick={() => navigate('/filters', { state: { photoData, videoData, videoBlob, isVideo, facingMode } })}
+            onClick={() => navigate('/edit', { state: { photoData, videoData, videoBlob, isVideo, selectedFilter, facingMode } })}
             className="flex items-center text-yellow-300 hover:text-yellow-400"
           >
             <HiOutlineArrowLeft className="mr-1" /> Terug
@@ -81,6 +82,7 @@ const TextPage = () => {
                   src={photoData}
                   alt="Je foto"
                   className="w-full h-full object-cover"
+                  style={photoEditFilter?.css ? { filter: photoEditFilter.css } : undefined}
                 />
               )}
 
@@ -96,7 +98,10 @@ const TextPage = () => {
                     textPosition === 'top' ? 'top-6' : 'bottom-6'
                   }`}
                 >
-                  <p className="text-yellow-300 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                  <p
+                    className="font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
+                    style={{ color: textColor === 'yellow' ? '#FFD700' : textColor === 'white' ? '#FFFFFF' : '#000000' }}
+                  >
                     {quote}
                   </p>
                 </div>
@@ -149,6 +154,32 @@ const TextPage = () => {
               >
                 Onder
               </button>
+            </div>
+          </div>
+
+          <div className="mb-2">
+            <h3 className="text-sm font-bold mb-2 text-yellow-300">
+              Tekstkleur:
+            </h3>
+            <div className="flex space-x-3">
+              {[
+                { value: 'white', label: 'Wit', bg: 'bg-white', border: 'border-gray-300' },
+                { value: 'black', label: 'Zwart', bg: 'bg-black', border: 'border-gray-600' },
+                { value: 'yellow', label: 'Geel', bg: 'bg-yellow-300', border: 'border-yellow-400' },
+              ].map(({ value, label, bg, border }) => (
+                <button
+                  key={value}
+                  onClick={() => setTextColor(value)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold border-2 transition-all ${
+                    textColor === value
+                      ? 'border-yellow-300 bg-yellow-300/10 text-yellow-300'
+                      : 'border-transparent bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+                  }`}
+                >
+                  <span className={`w-4 h-4 rounded-full ${bg} border ${border} inline-block`} />
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
