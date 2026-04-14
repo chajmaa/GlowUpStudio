@@ -128,8 +128,8 @@ const Preview = () => {
       });
 
       const canvas = document.createElement('canvas');
-      canvas.width = 1920;
-      canvas.height = 1920;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
 
       const filterImg = new Image();
