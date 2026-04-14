@@ -221,8 +221,25 @@ const Preview = () => {
           ctx.filter = photoEditFilter.css;
         }
 
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+       const imgAspect = filterImg.width / filterImg.height;
+const canvasAspect = canvas.width / canvas.height;
 
+let drawWidth;
+let drawHeight;
+let offsetX = 0;
+let offsetY = 0;
+
+if (imgAspect > canvasAspect) {
+  drawHeight = canvas.height;
+  drawWidth = drawHeight * imgAspect;
+  offsetX = (canvas.width - drawWidth) / 2;
+} else {
+  drawWidth = canvas.width;
+  drawHeight = drawWidth / imgAspect;
+  offsetY = (canvas.height - drawHeight) / 2;
+}
+
+ctx.drawImage(filterImg, offsetX, offsetY, drawWidth, drawHeight);
         ctx.filter = 'none';
         ctx.restore();
 
