@@ -3,29 +3,29 @@ const filterData = [;
   id: 'examenfeest',
   name: 'Examenfeest',
   description: 'Overlay voor examenfoto’s',
-  imageUrl: '/GlowUpStudio/dist/examenfeest.png',
-  thumbnailUrl: '/GlowUpStudio/dist/examenfeest.png'
+  imageUrl: '/filters//examenfeest.png',
+  thumbnailUrl: '/filters/examenfeest.png'
 },
 {
   id: 'examenfeest1',
   name: 'Examenfeest 1',
   description: 'Extra feestelijke overlay voor examenfoto’s',
-  imageUrl: '/GlowUpStudio/dist/examenfeest1.svg',
-  thumbnailUrl: '/GlowUpStudio/dist/examenfeest1.svg'
+  imageUrl: '/filters/examenfeest1.svg',
+  thumbnailUrl: '/filters/examenfeest1.svg'
 },
 {
   id: 'flowers',
   name: 'Flowers',
   description: 'Bloemen overlay voor een zachte uitstraling',
-  imageUrl: '/GlowUpStudio/dist/flowers.svg',
-  thumbnailUrl: '/GlowUpStudio/dist/flowers.svg'
+  imageUrl: '/filters/flowers.svg',
+  thumbnailUrl: '/filters/flowers.svg'
 },
 {
   id: 'rodeloper',
   name: 'Rode Loper',
   description: 'Luxe rode loper overlay voor feestelijke foto’s',
-  imageUrl: '/GlowUpStudio/dist/rodeloper.png',
-  thumbnailUrl: '/GlowUpStudio/dist/rodeloper.png'
+  imageUrl: '/filters/rodeloper.png',
+  thumbnailUrl: '/filters/rodeloper.png'
 },
   {
     id: 'love',
