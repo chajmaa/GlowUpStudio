@@ -6,6 +6,13 @@ const filterData = [
   imageUrl: '/examenfeest.png',
   thumbnailUrl: '/examenfeest.png'
 },
+  {
+  id: 'FeestOrtolaan',
+  name: 'Feestortolaan',
+  description: 'Overlay voor examenfoto’s',
+  imageUrl: '/FeestOrtolaan.png',
+  thumbnailUrl: '/examenfeest.png'
+},
 {
   id: 'examenfeest1',
   name: 'Examenfeest1',
