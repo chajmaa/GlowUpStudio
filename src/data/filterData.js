@@ -1,4 +1,39 @@
-const filterData = [
+const filterData = [;
+{
+  id: 'FeestOrtolaan',
+  name: 'Feest Ortolaan',
+  description: 'Feestelijke overlay voor Ortolaan momenten',
+  imageUrl: '/FeestOrtolaan.png',
+  thumbnailUrl: '/FeestOrtolaan.png'
+},
+{
+  id: 'examenfeest',
+  name: 'Examenfeest',
+  description: 'Feestelijke overlay voor het examenfeest',
+  imageUrl: '/examenfeest.png',
+  thumbnailUrl: '/examenfeest.png'
+},
+{
+  id: 'examenfeest1',
+  name: 'Examenfeest 1',
+  description: 'Extra feestelijke overlay voor examenfoto’s',
+  imageUrl: '/examenfeest1.svg',
+  thumbnailUrl: '/examenfeest1.svg'
+},
+{
+  id: 'flowers',
+  name: 'Flowers',
+  description: 'Bloemen overlay voor een zachte uitstraling',
+  imageUrl: '/flowers.svg',
+  thumbnailUrl: '/flowers.svg'
+},
+{
+  id: 'rodeloper',
+  name: 'Rode Loper',
+  description: 'Luxe rode loper overlay voor feestelijke foto’s',
+  imageUrl: '/rodeloper.png',
+  thumbnailUrl: '/rodeloper.png'
+}
   {
     id: 'love',
     name: 'Love Filter',
