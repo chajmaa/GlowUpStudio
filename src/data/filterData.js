@@ -25,7 +25,7 @@ const filterData = [
   name: 'Flowers',
   description: 'Bloemen overlay voor een zachte uitstraling',
   imageUrl: ‘/-flowers',
-  thumbnailUrl: '/flowers.svg'
+  thumbnailUrl: '/-flowers.png'
 },
   {
     id: 'love',
