@@ -14,13 +14,6 @@ const filterData = [
   thumbnailUrl: '/examenfeest1.svg'
 },
 {
-  id: 'flowers',
-  name: 'Flowers',
-  description: 'Bloemen overlay voor een zachte uitstraling',
-  imageUrl: '/flowers.svg',
-  thumbnailUrl: '/flowers.svg'
-},
-{
   id: 'rodeloper',
   name: 'Rode Loper',
   description: 'Luxe rode loper overlay voor feestelijke foto’s',
@@ -31,8 +24,8 @@ const filterData = [
     id: 'love',
     name: 'Love Filter',
     description: 'Romantische vibes voor je foto',
-    imageUrl: '/filters/LoveFilter.png',
-    thumbnailUrl: '/filters/LoveFilter.png'
+    imageUrl: '/LoveFilter.png',
+    thumbnailUrl: '/LoveFilter.png'
   },
   {
     id: 'classic',
