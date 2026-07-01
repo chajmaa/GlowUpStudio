@@ -21,11 +21,11 @@ const filterData = [
   thumbnailUrl: '/examenfeest.png'
 },
 {
-  id: 'rodeloper',
-  name: 'Rode Loper',
-  description: 'Luxe rode loper overlay voor feestelijke foto’s',
-  imageUrl: '/rodeloper.png',
-  thumbnailUrl: '/rodeloper.png'
+  id: ‘-flowers',
+  name: 'Flowers',
+  description: 'Bloemen overlay voor een zachte uitstraling',
+  imageUrl: ‘/-flowers',
+  thumbnailUrl: '/flowers.svg'
 },
   {
     id: 'love',
@@ -48,6 +48,13 @@ const filterData = [
     imageUrl: '/ClassicFilter-GlowUpStudio.png',
     thumbnailUrl: '/ClassicFilter-GlowUpStudio.png'
   },
+  {
+  id: 'rodeloper',
+  name: 'Rode Loper',
+  description: 'Luxe rode loper overlay voor feestelijke foto’s',
+  imageUrl: '/rodeloper.png',
+  thumbnailUrl: '/rodeloper.png'
+},
   {
     id: 'deluxe',
     name: 'Deluxe Filter',
