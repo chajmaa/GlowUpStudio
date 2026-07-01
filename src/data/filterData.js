@@ -1,4 +1,4 @@
-const filterData = [;
+const filterData = [
 {
   id: 'examenfeest',
   name: 'Examenfeest',
