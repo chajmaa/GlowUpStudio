@@ -33,7 +33,7 @@ const filterData = [;
   description: 'Luxe rode loper overlay voor feestelijke foto’s',
   imageUrl: '/rodeloper.png',
   thumbnailUrl: '/rodeloper.png'
-}
+},
   {
     id: 'love',
     name: 'Love Filter',
