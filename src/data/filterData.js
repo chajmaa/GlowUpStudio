@@ -3,36 +3,36 @@ const filterData = [;
   id: 'FeestOrtolaan',
   name: 'Feest Ortolaan',
   description: 'Feestelijke overlay voor Ortolaan momenten',
-  imageUrl: '/filters/FeestOrtolaan.png',
-  thumbnailUrl: '/filters/FeestOrtolaan.png'
+  imageUrl: '/FeestOrtolaan.png',
+  thumbnailUrl: '/FeestOrtolaan.png'
 },
 {
   id: 'examenfeest',
   name: 'Examenfeest',
   description: 'Feestelijke overlay voor het examenfeest',
-  imageUrl: '/filters/examenfeest.png',
-  thumbnailUrl: '/filters/examenfeest.png'
+  imageUrl: '/examenfeest.png',
+  thumbnailUrl: '/examenfeest.png'
 },
 {
   id: 'examenfeest1',
   name: 'Examenfeest 1',
   description: 'Extra feestelijke overlay voor examenfoto’s',
-  imageUrl: '/filters/examenfeest1.svg',
-  thumbnailUrl: '/filters/examenfeest1.svg'
+  imageUrl: '/examenfeest1.svg',
+  thumbnailUrl: '/examenfeest1.svg'
 },
 {
   id: 'flowers',
   name: 'Flowers',
   description: 'Bloemen overlay voor een zachte uitstraling',
-  imageUrl: '/filters/flowers.svg',
-  thumbnailUrl: '/filters/flowers.svg'
+  imageUrl: '/flowers.svg',
+  thumbnailUrl: '/flowers.svg'
 },
 {
   id: 'rodeloper',
   name: 'Rode Loper',
   description: 'Luxe rode loper overlay voor feestelijke foto’s',
-  imageUrl: '/filters/rodeloper.png',
-  thumbnailUrl: '/filters/rodeloper.png'
+  imageUrl: '/rodeloper.png',
+  thumbnailUrl: '/rodeloper.png'
 }
   {
     id: 'love',
