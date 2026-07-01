@@ -7,13 +7,6 @@ const filterData = [
     thumbnailUrl: '/LoveFilter.png'
   },
   {
-    id: 'retirement',
-    name: 'Happy Retirement',
-    description: 'Vier je pensioen met gouden vuurwerk',
-    imageUrl: '/kopie_van_kopie_van_kopie_van_zonder_titel_(2).png',
-    thumbnailUrl: '/kopie_van_kopie_van_kopie_van_zonder_titel_(2).png'
-  },
-  {
     id: 'classic',
     name: 'Classic Filter',
     description: 'Klassieke stijl voor je foto',
