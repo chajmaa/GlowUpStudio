@@ -1,10 +1,10 @@
 const filterData = [
 {
-  id: 'examenfeest',
+  id: '-examenfeest',
   name: 'Examenfeest',
   description: 'Overlay voor examenfoto’s',
-  imageUrl: '/examenfeest.png',
-  thumbnailUrl: '/examenfeest.png'
+  imageUrl: '/-examenfeest.png',
+  thumbnailUrl: '/-examenfeest.png'
 },
   {
   id: 'FeestOrtolaan',
