@@ -6,19 +6,19 @@ const filterData = [
   imageUrl: '/--examenfeest.png',
   thumbnailUrl: '/-examenfeest.png'
 },
-  {
-  id: 'FeestOrtolaan',
-  name: 'Feestortolaan',
-  description: 'Overlay voor examenfoto’s',
-  imageUrl: '/FeestOrtolaan.png',
-  thumbnailUrl: '/examenfeest.png'
-},
 {
   id: 'examenfeest1',
   name: 'Examenfeest1',
   description: 'Extra feestelijke overlay voor examenfoto’s',
   imageUrl: '/examenfeest1.svg',
   thumbnailUrl: '/examenfeest1.svg'
+},
+  {
+  id: 'FeestOrtolaan',
+  name: 'Feestortolaan',
+  description: 'Overlay voor examenfoto’s',
+  imageUrl: '/FeestOrtolaan.png',
+  thumbnailUrl: '/examenfeest.png'
 },
 {
   id: 'rodeloper',
@@ -35,6 +35,13 @@ const filterData = [
     thumbnailUrl: '/LoveFilter.png'
   },
   {
+    id: 'examen',
+    name: 'Examen Feest',
+    description: 'Vier je geslaagd zijn met deze feestelijke overlay',
+    imageUrl: '/ExamenFeestFilter.png',
+    thumbnailUrl: '/ExamenFeestFilter.png'
+  },
+  {
     id: 'classic',
     name: 'Classic Filter',
     description: 'Klassieke stijl voor je foto',
@@ -47,20 +54,6 @@ const filterData = [
     description: 'Luxe uitstraling voor je speciale moment',
     imageUrl: '/DeluxeFilter-GlowUpStudio.png',
     thumbnailUrl: '/DeluxeFilter-GlowUpStudio.png'
-  },
-  {
-    id: 'examen',
-    name: 'Examen Feest',
-    description: 'Vier je geslaagd zijn met deze feestelijke overlay',
-    imageUrl: '/ExamenFeestFilter.png',
-    thumbnailUrl: '/ExamenFeestFilter.png'
-  },
-  {
-    id: 'glowup1',
-    name: 'GlowUp Style 1',
-    description: 'Moderne GlowUp effecten',
-    imageUrl: '/GlowUpStudioFilter1.png',
-    thumbnailUrl: '/GlowUpStudioFilter1.png'
   },
   {
     id: 'glowup2',
