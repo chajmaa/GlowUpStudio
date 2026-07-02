@@ -18,13 +18,13 @@ const filterData = [
   name: 'Feestortolaan',
   description: 'Overlay voor examenfoto’s',
   imageUrl: '/FeestOrtolaan.png',
-  thumbnailUrl: '/examenfeest.png'
+  thumbnailUrl: '/FeestOrtolaan.png'
 },
 {
   id: ‘-flowers',
   name: 'Flowers',
   description: 'Bloemen overlay voor een zachte uitstraling',
-  imageUrl: ‘/-flowers',
+  imageUrl: ‘/-flowers.png',
   thumbnailUrl: '/-flowers.png'
 },
   {
